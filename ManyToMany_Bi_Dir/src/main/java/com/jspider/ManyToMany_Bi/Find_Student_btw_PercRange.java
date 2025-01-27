@@ -1,0 +1,38 @@
+package com.jspider.ManyToMany_Bi;
+
+import java.util.List;
+import java.util.Scanner;
+
+import javax.persistence.*;
+
+import org.hibernate.loader.custom.ScalarResultColumnProcessor;
+
+import com.mysql.cj.protocol.x.SyncFlushDeflaterOutputStream;
+
+public class Find_Student_btw_PercRange {
+public static void main(String[] args) {
+	Scanner sc = new Scanner(System.in);
+	System.out.println("Enter Percentage Range 1");
+	double r1 = sc.nextDouble();
+	System.out.println("Enter Percentage Range 1");
+	double r2 = sc.nextDouble();
+	
+	EntityManagerFactory fac = Persistence.createEntityManagerFactory("dev");
+	EntityManager man = fac.createEntityManager();
+	Query q = man.createQuery("select s from Student s where s.perc between ?1 and ?2");
+	q.setParameter(1, r1);
+	q.setParameter(2, r2);
+	
+	List<Student> st = q.getResultList();
+	if(st.size()>0) {
+		for(Student std: st) {
+			System.out.println(st);
+		}
+	}
+	else {
+		System.out.println("NO result found");
+	}
+	
+sc.close();			
+}
+}
